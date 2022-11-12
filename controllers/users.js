@@ -1,5 +1,7 @@
 import User from "../models/user.js";
 import mongoose from "mongoose";
+import bcryptjs from "bcryptjs";
+import { validationResult } from "express-validator";
 
 
 
@@ -13,8 +15,27 @@ export const getUsers = (req, res) => {
 
 export const postUsers = async (req, res) => {
 
-    const body = req.body;
-    const user = new User(body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errors);
+    }
+
+    const { name, email, password, rol } = req.body;
+    const user = new User({ name, email, password, rol });
+
+    //verify if email exist
+    const emailExist = await User.findOne({ email });
+    if (emailExist) {
+        return res.status(404).json({
+            msg: 'The email already exist'
+        })
+    }
+
+
+    //encript password
+    const salt = await bcryptjs.genSalt();
+    user.password = bcryptjs.hashSync(password, salt);
+
     await user.save()
 
 
