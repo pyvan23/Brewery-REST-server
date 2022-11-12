@@ -1,3 +1,6 @@
+import User from "../models/user.js";
+import mongoose from "mongoose";
+
 
 
 
@@ -8,11 +11,14 @@ export const getUsers = (req, res) => {
     res.json({ msg: "home page two example", q, apiKey, name, page, limit });
 }
 
-export const postUsers = (req, res) => {
+export const postUsers = async (req, res) => {
 
-    const { nombre, edad } = req.body
+    const body = req.body;
+    const user = new User(body);
+    await user.save()
 
-    res.json({ msg: 'created ', nombre, edad });
+
+    res.json({ msg: 'created ', user });
 }
 
 export const putUsers = (req, res) => {
