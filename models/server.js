@@ -1,6 +1,6 @@
 import express from "express";
 import cors from 'cors';
-import router from "../routes/user.js";
+import router from "../routes/users.js";
 
 
 
@@ -24,6 +24,8 @@ export class Server {
     middlewares() {
         //cors
         this.app.use(cors())
+        //read and parse of body to json
+        this.app.use(express.json())
         //public directorie
         this.app.use(express.static('public'))
     }
