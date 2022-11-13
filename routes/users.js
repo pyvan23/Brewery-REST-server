@@ -7,8 +7,9 @@ import {
     postUsers,
     putUsers,
 } from "../controllers/users.js";
+import { isRolValid } from "../helpers/db-validators.js";
 import { validateFields } from "../middlewares/validate-fields.js";
-import Role from "../models/role.js";
+
 
 
 const router = Router();
@@ -25,12 +26,7 @@ router.post(
             min: 6,
         }),
         check("email", "This email in not valid ").isEmail(),
-        check("rol").custom(async (rol = "") => {
-            const existRol = await Role.findOne({ rol });
-            if (!existRol) {
-                throw new Error(`this rol ${rol} is not register in BD`);
-            }
-        }),
+        check("rol").custom(isRolValid),
         validateFields,
     ],
     postUsers
