@@ -47,6 +47,10 @@ export const patchUsers = (req, res) => {
     res.json({ msg: "patch controller" });
 };
 
-export const deleteUsers = (req, res) => {
-    res.json({ msg: "delete controller" });
+export const deleteUsers = async (req, res) => {
+
+    const { id } = req.params;
+    const user = await User.findByIdAndUpdate(id, { state: false })
+
+    res.json({ msg: "delete controller", user });
 };
