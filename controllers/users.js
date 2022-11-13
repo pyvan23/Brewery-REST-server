@@ -1,5 +1,4 @@
 import User from "../models/user.js";
-import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
 
 
@@ -15,19 +14,8 @@ export const getUsers = (req, res) => {
 
 export const postUsers = async (req, res) => {
 
-    
-
     const { name, email, password, rol } = req.body;
     const user = new User({ name, email, password, rol });
-
-    //verify if email exist
-    const emailExist = await User.findOne({ email });
-    if (emailExist) {
-        return res.status(404).json({
-            msg: 'The email already exist'
-        })
-    }
-
 
     //encript password
     const salt = await bcryptjs.genSalt();
@@ -39,11 +27,20 @@ export const postUsers = async (req, res) => {
     res.json({ msg: 'created ', user });
 }
 
-export const putUsers = (req, res) => {
+export const putUsers = async (req, res) => {
 
-    const { id } = req.params
+    const { id } = req.params;
+    const { password, goggle, email, ...resto } = req.body;
+    if (password) {
 
-    res.json({ msg: 'put controller', id });
+        //encript password
+        const salt = await bcryptjs.genSalt();
+        resto.password = bcryptjs.hashSync(password, salt);
+    }
+    const user = await User.findByIdAndUpdate(id, resto)
+
+
+    res.json({ msg: 'put controller updated', user });
 }
 
 export const patchUsers = (req, res) => {

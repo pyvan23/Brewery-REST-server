@@ -7,7 +7,7 @@ import {
     postUsers,
     putUsers,
 } from "../controllers/users.js";
-import { isRolValid } from "../helpers/db-validators.js";
+import { isEmailExist, isRolValid } from "../helpers/db-validators.js";
 import { validateFields } from "../middlewares/validate-fields.js";
 
 
@@ -25,7 +25,7 @@ router.post(
         check("password", "Password must be have more than 6 characters").isLength({
             min: 6,
         }),
-        check("email", "This email in not valid ").isEmail(),
+        check("email").custom(isEmailExist).isEmail(),
         check("rol").custom(isRolValid),
         validateFields,
     ],

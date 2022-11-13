@@ -1,4 +1,5 @@
 import Role from "../models/role.js";
+import User from "../models/user.js";
 
 
 export const isRolValid = async (rol = '') => {
@@ -10,3 +11,11 @@ export const isRolValid = async (rol = '') => {
 }
 
 
+export const isEmailExist = async (email = '') => {
+
+    const emailExist = await User.findOne({ email });
+    if (emailExist) {
+        throw new Error(`This email ${email}, is not valid`)
+    }
+
+}
