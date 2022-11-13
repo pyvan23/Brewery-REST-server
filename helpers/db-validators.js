@@ -19,3 +19,11 @@ export const isEmailExist = async (email = '') => {
     }
 
 }
+export const isUserExist = async (id) => {
+
+    const userExist = await User.findById(id);
+    if (!userExist) {
+        throw new Error(`This user ${id}, is not valid`)
+    }
+
+}
