@@ -14,11 +14,11 @@ import {
 } from "../helpers/db-validators.js";
 import { validateFields } from "../middlewares/validate-fields.js";
 
-const router = Router();
+const userRouter = Router();
 
-router.get("/", getUsers);
+userRouter.get("/", getUsers);
 
-router.put(
+userRouter.put(
     "/:id",
     [
         check("id", "this id is not valid").isMongoId(),
@@ -29,7 +29,7 @@ router.put(
     putUsers
 );
 
-router.post(
+userRouter.post(
     "/",
     [
         check("name", "This name is not valis or is required").not().isEmpty(),
@@ -43,12 +43,12 @@ router.post(
     postUsers
 );
 
-router.delete("/:id",[
+userRouter.delete("/:id",[
     check("id", "this id is not valid").isMongoId(),
     check("id").custom(isUserExist),
     validateFields    
 ], deleteUsers);
 
-router.patch("/", patchUsers);
+userRouter.patch("/", patchUsers);
 
-export default router;
+export default userRouter;
