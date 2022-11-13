@@ -1,7 +1,7 @@
 import User from "../models/user.js";
 import mongoose from "mongoose";
 import bcryptjs from "bcryptjs";
-import { validationResult } from "express-validator";
+
 
 
 
@@ -15,10 +15,7 @@ export const getUsers = (req, res) => {
 
 export const postUsers = async (req, res) => {
 
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        return res.status(400).json(errors);
-    }
+    
 
     const { name, email, password, rol } = req.body;
     const user = new User({ name, email, password, rol });
