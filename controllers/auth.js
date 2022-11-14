@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import bcryptjs from "bcryptjs";
+import { generateJwt } from "../helpers/generate-jwt.js";
 
 
 
@@ -23,7 +24,9 @@ export const login = async (req, res) => {
             return res.status(400).json('password incorrect')
         }
 
-        res.json({ msg: 'ok login', })
+        const token = await generateJwt(user.id);
+
+        res.json({ msg: 'ok login', user, token })
 
     } catch (error) {
 
