@@ -43,7 +43,8 @@ userRouter.post(
     postUsers
 );
 
-userRouter.delete("/:id",[
+userRouter.delete("/:id",
+[
     check("id", "this id is not valid").isMongoId(),
     check("id").custom(isUserExist),
     validateFields    
