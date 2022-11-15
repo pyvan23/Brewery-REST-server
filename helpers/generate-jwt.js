@@ -17,7 +17,7 @@ export const generateJwt = (uid = '') => {
                 reject(' somesthing wrong happens,token can not be created')
             } else {
 
-                resolve(token)
+                resolve(token, payload)
             }
 
         })

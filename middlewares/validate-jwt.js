@@ -10,5 +10,16 @@ export const validateJwt = (req, res, next) => {
         console.log(token);
         return res.status(401).json({ msg: 'request have not token' })
     }
-    next()
+
+    try {
+
+        const payload = jwt.verify(token, process.env.SECRET_KEY);
+
+        next()
+    } catch (error) {
+        
+        res.status(401).json({ msg: 'token invalid' })
+    }
+
+
 } 

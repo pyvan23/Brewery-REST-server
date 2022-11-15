@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcryptjs from "bcryptjs";
 
+
 export const getUsers = async (req, res) => {
 
     const { limits = 5, since = 0 } = req.query;
@@ -49,8 +50,11 @@ export const patchUsers = (req, res) => {
 
 export const deleteUsers = async (req, res) => {
 
+
     const { id } = req.params;
+    
     const user = await User.findByIdAndUpdate(id, { state: false })
 
-    res.json({ msg: "delete controller", user });
+    res.json({ msg: "delete controller", user,  });
+
 };
