@@ -3,6 +3,7 @@ import { check } from "express-validator";
 import { login } from "../controllers/auth.js";
 import { validateFields } from "../middlewares/validate-fields.js";
 
+
 const router = Router();
 
 router.post(

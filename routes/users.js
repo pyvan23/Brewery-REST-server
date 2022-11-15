@@ -13,6 +13,7 @@ import {
     isUserExist,
 } from "../helpers/db-validators.js";
 import { validateFields } from "../middlewares/validate-fields.js";
+import { validateJwt } from "../middlewares/validate-jwt.js";
 
 const userRouter = Router();
 
@@ -44,7 +45,7 @@ userRouter.post(
 );
 
 userRouter.delete("/:id",
-[
+[validateJwt,
     check("id", "this id is not valid").isMongoId(),
     check("id").custom(isUserExist),
     validateFields    
