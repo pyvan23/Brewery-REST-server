@@ -25,8 +25,9 @@ export const login = async (req, res) => {
         }
 
         const token = await generateJwt(user.id);
+        
 
-        res.json({ msg: 'ok login', user, token })
+        res.json({ msg: 'ok login', user, token})
 
     } catch (error) {
 
