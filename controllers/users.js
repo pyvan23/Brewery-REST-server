@@ -53,8 +53,8 @@ export const deleteUsers = async (req, res) => {
 
     const { id } = req.params;
     const user = await User.findByIdAndUpdate(id, { state: false });
-    const userAuthenticated = req.user;
+    
 
-    res.json({ msg: "delete controller", user, userAuthenticated });
+    res.json({ msg: user });
 
 };
