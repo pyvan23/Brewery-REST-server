@@ -46,12 +46,12 @@ userRouter.post(
 );
 
 userRouter.delete("/:id",
-    [validateJwt,
+    [   validateJwt,
         isAdminRole,
         check("id", "this id is not valid").isMongoId(),
         check("id").custom(isUserExist),
         validateFields
-    ], deleteUsers);
+    ],  deleteUsers);
 
 userRouter.patch("/", patchUsers);
 

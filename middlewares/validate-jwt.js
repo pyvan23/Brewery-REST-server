@@ -16,17 +16,20 @@ export const validateJwt = async (req, res, next) => {
     try {
 
         const { uid } = jwt.verify(token, process.env.SECRET_KEY);
+
         //read user uid to know if is register in DB
-        const userAuthenticated = await User.findById(uid);
+        const user  = await User.findById(uid);
         //verify if user state is in true or false in DB
-        if (!userAuthenticated) {
-            return res.status(401).json({ msg: 'user was deleted ' });
-        }
-        if (!userAuthenticated.state) {
+
+        console.log( user );
+        if (!user.state) {
             return res.status(401).json({ msg: 'Token invalid - user state false ' });
         }
+        if (!user) {
+            return res.status(401).json({ msg: 'user was deleted ' });
+        }
         //create a property in the request,so i can acces to the request body with user info
-        req.user = userAuthenticated
+        req.user = user; 
 
         next()
 
