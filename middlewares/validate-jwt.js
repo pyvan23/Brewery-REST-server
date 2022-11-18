@@ -22,11 +22,11 @@ export const validateJwt = async (req, res, next) => {
         //verify if user state is in true or false in DB
 
         console.log( user );
-        if (!user.state) {
-            return res.status(401).json({ msg: 'Token invalid - user state false ' });
-        }
         if (!user) {
             return res.status(401).json({ msg: 'user was deleted ' });
+        }
+        if (!user.state) {
+            return res.status(401).json({ msg: 'Token invalid - user state false ' });
         }
         //create a property in the request,so i can acces to the request body with user info
         req.user = user; 

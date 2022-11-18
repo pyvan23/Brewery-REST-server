@@ -53,7 +53,7 @@ export const deleteUsers = async (req, res) => {
 
     const { id } = req.params;
     const user = await User.findByIdAndUpdate(id, { state: false });
-    
+    console.log(user);
 
     res.json({ msg: user });
 
