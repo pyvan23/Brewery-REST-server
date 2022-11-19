@@ -14,7 +14,7 @@ import {
 } from "../helpers/db-validators.js";
 import { validateFields } from "../middlewares/validate-fields.js";
 import { validateJwt } from "../middlewares/validate-jwt.js";
-import { isAdminRole } from "../middlewares/validate-roles.js";
+import { haveRol, isAdminRole } from "../middlewares/validate-roles.js";
 
 const userRouter = Router();
 
@@ -49,7 +49,8 @@ userRouter.delete("/:id",
     [
 
         validateJwt,
-        isAdminRole,
+        // isAdminRole,
+        haveRol('ADMIN_ROLE', 'SELL_ROLL'),
         check("id", "this id is not valid").isMongoId(),
         check("id").custom(isUserExist),
         validateFields

@@ -19,3 +19,9 @@ export const isAdminRole = (req, res, next) => {
 
 
 }
+//...rest when its use in the arguments if not are spread operator
+export const haveRol = (...rest) => {
+
+
+
+}
