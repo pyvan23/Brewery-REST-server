@@ -63,7 +63,7 @@ export const googleSigIn = async (req, res) => {
                 google: true,
             };
             user = new User(data);
-            
+
             await user.save();
         }
         if (!user.state) {
