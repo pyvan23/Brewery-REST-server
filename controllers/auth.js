@@ -46,12 +46,39 @@ export const googleSigIn = async (req, res) => {
     const { id_token } = req.body;
 
     try {
-        const googleUser = await googleVerify(id_token)
-        console.log(googleUser);
-        res.json({ msg: 'ok', id_token })
+        const { name, img, email } = await googleVerify(id_token);
+        console.log(name,email);
+
+        let user = await User.findOne({ email })
+        console.log(user);
+        if (!user) {
+            // create user
+            const data = {
+                name,
+                email,
+                password: ";P",
+                img,
+                rol: "USER_ROLE",
+                google: true,
+              };
+            user =  new Usuario(data);
+             await user.save();
+        }
+        if (!user.state) {
+            return res.status(401).json({
+                msg: 'conect with admin ,user block'
+            })
+        }
+
+        const token = await generateJwt(user.id);
+
+        res.json({ user, token })
 
     } catch (error) {
-
+        res.status(400).json({
+            ok: false,
+            msg: 'token could not be verify'
+        })
     }
 
 
