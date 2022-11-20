@@ -1,6 +1,7 @@
 import User from "../models/user.js";
 import bcryptjs from "bcryptjs";
 import { generateJwt } from "../helpers/generate-jwt.js";
+import { googleVerify } from "../helpers/google-verify.js";
 
 
 
@@ -40,11 +41,19 @@ export const login = async (req, res) => {
 
 }
 
-export const googleSigIn = (req, res) => {
+export const googleSigIn = async (req, res) => {
 
     const { id_token } = req.body;
 
-    res.json({msg:'ok',id_token})
+    try {
+        const googleUser = await googleVerify(id_token)
+        console.log(googleUser);
+        res.json({ msg: 'ok', id_token })
+
+    } catch (error) {
+
+    }
+
 
 
 

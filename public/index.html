@@ -21,11 +21,12 @@
         function handleCredentialResponse(response) {
             //google token : ID_TOKEN
             // console.log("ID_TOKEN", response.credential);
-
+            const id_token = response.credential;
             const data = { id_token };
-            const url = (window.location.hostname.includes('http://localhost:8080/api/auth/google'))
-              
-            const myHeaders = new Headers();
+            const url = 'http://localhost:8080/api/auth/google'
+
+
+            var myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
             const myInit = {
@@ -40,9 +41,11 @@
 
 
             fetch(myRequest)
-                .then(resp => resp.json())
-                .then(data => console.log(' Server', data))
-                .catch(console.log);
+                .then(resp => resp)
+                .then(data => console.log('Nuestro Server', data))
+                .catch(console.warn);
+            console.log('id_token', response.credential);
+
         }
     </script>
 </body>
