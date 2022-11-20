@@ -46,8 +46,9 @@ export const googleSigIn = async (req, res) => {
     const { id_token } = req.body;
 
     try {
+
         const { name, img, email } = await googleVerify(id_token);
-        console.log(name,email);
+        console.log(name, email, id_token);
 
         let user = await User.findOne({ email })
         console.log(user);
@@ -60,9 +61,10 @@ export const googleSigIn = async (req, res) => {
                 img,
                 rol: "USER_ROLE",
                 google: true,
-              };
-            user =  new Usuario(data);
-             await user.save();
+            };
+            user = new User(data);
+            
+            await user.save();
         }
         if (!user.state) {
             return res.status(401).json({

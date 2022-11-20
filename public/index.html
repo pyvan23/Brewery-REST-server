@@ -21,15 +21,15 @@
         function handleCredentialResponse(response) {
             //google token : ID_TOKEN
             // console.log("ID_TOKEN", response.credential);
-            var id_token = response.credential;
-            var data = { id_token };
-            var url = 'http://localhost:8080/api/auth/google'
+            const id_token = response.credential;
+            const data = { id_token };
+            const url = 'http://localhost:8080/api/auth/google'
 
 
-            var myHeaders = new Headers();
+            const myHeaders = new Headers();
             myHeaders.append("Content-Type", "application/json");
 
-            var myInit = {
+            const myInit = {
                 method: 'POST',
                 headers: myHeaders,
                 mode: 'cors',
@@ -37,12 +37,12 @@
                 body: JSON.stringify(data)
             };
 
-            var myRequest = new Request(url, myInit);
+            const myRequest = new Request(url, myInit);
 
 
             fetch(myRequest)
                 .then(resp => resp.json())
-                .then(resp => console.log('Nuestro Server', resp.data))
+                .then(resp => console.log('Nuestro Server', data))
                 .catch(console.warn);
             console.log('id_token', response.credential);
 
