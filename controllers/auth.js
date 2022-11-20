@@ -25,9 +25,9 @@ export const login = async (req, res) => {
         }
 
         const token = await generateJwt(user.id);
-        
 
-        res.json({ msg: 'ok login', user, token})
+
+        res.json({ msg: 'ok login', user, token })
 
     } catch (error) {
 
@@ -35,6 +35,16 @@ export const login = async (req, res) => {
         res.status(500).json({ msg: 'something wrong happens,talk with the admin' });
     }
 
+
+
+
+}
+
+export const googleSigIn = (req, res) => {
+
+    const { id_token } = req.body;
+
+    res.json({msg:'ok',id_token})
 
 
 
