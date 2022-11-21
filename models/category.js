@@ -1,10 +1,11 @@
 import { Schema, model } from "mongoose";
 
 
-const CategorieSchema = Schema({
+const CategorySchema = Schema({
     name: {
         type: String,
-        required: [true, 'name is required']
+        required: [true, 'name is required'],
+        unique: true
     },
     state: {
         type: Boolean,
@@ -20,6 +21,6 @@ const CategorieSchema = Schema({
 })
 
 
-export default model('Categorie', CategorieSchema);
+export default model('Category', CategorySchema);
 
 
