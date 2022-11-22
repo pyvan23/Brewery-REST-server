@@ -16,14 +16,17 @@ categoriesRouter.get('/', getCategories)
 categoriesRouter.get('/:id',
     [check("id", "this id is not valid")
         .isMongoId(),
-    check('id')
-        .custom(isCategoryExist)
+        check('id')
+        .custom(isCategoryExist),
+        validateFields,
     ], getCategoryById)
 
 //update - private -anyone who takes a valid token
-categoriesRouter.post('/', [validateJwt,
-    check('name', 'name is required').not().isEmpty(),
-    validateFields], createCategories)
+categoriesRouter.post('/',
+    [validateJwt,
+        check('name', 'name is required').not().isEmpty(),
+        validateFields,
+    ], createCategories)
 
 //update - private -anyone who takes a valid token
 categoriesRouter.put('/:id', (req, res) => {

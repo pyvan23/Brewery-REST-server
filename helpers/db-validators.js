@@ -31,7 +31,7 @@ export const isUserExist = async (id) => {
 export const isCategoryExist = async (id) => {
 
     const categoryExist = await Category.findById(id);
-    categoryExist.toString()
+
     if (!categoryExist) {
         throw new Error(`This category ${id}, is not valid`)
     }

@@ -8,8 +8,9 @@ export const getCategories = async (req, res) => {
 
 
     const [total, categories] = await Promise.all([
+
         Category.countDocuments({ state: true }),
-        Category.find({ state: true }).skip(Number(since)).limit(Number(limits))
+        Category.find({ state: true }).populate('user', 'name').skip(Number(since)).limit(Number(limits))
     ])
 
     res.status(200).json({ total, categories });
@@ -26,10 +27,10 @@ export const getCategoryById = async (req, res) => {
 
     const { id } = req.params
     console.log(id);
-    const categorie = await Category.findById(id);
+    const categorie = await Category.findById(id).populate('user','name')
 
 
-    res.status(200).json( categorie );
+    res.status(200).json(categorie);
 
 
 }
