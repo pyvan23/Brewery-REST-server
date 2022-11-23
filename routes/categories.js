@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { createCategories, getCategoryById, getCategories, updateCategories, deleteCategory } from "../controllers/categories.js";
-import { isCategoryExist, isRolValid,  } from "../helpers/db-validators.js";
+import { isCategoryExist, isRolValid, } from "../helpers/db-validators.js";
 
 import { validateFields } from "../middlewares/validate-fields.js";
 import { validateJwt } from "../middlewares/validate-jwt.js";
@@ -22,7 +22,7 @@ categoriesRouter.get('/:id',
         validateFields,
     ], getCategoryById)
 
-//update - private -anyone who takes a valid token
+//create category - need to have jwt
 categoriesRouter.post('/',
     [validateJwt,
         check('name', 'name is required').not().isEmpty(),
@@ -31,16 +31,17 @@ categoriesRouter.post('/',
 
 //update - private -anyone who takes a valid token
 categoriesRouter.put('/:id', [validateJwt, check("id", "this id is not valid").isMongoId(),
-check('name', 'name is required').not().isEmpty(),
+    check('name', 'name is required').not().isEmpty(),
     check("id").custom(isCategoryExist),
 
     validateFields,], updateCategories)
 //only ADMIN_USER - private
-categoriesRouter.delete('/:id', 
-[validateJwt, isAdminRole,
-check("id", "this id is not valid").isMongoId(),
-check("id").custom(isCategoryExist),
-validateFields],deleteCategory)
+categoriesRouter.delete('/:id',
+    [validateJwt, isAdminRole,
+        check("id", "this id is not valid").isMongoId(),
+        check("id").custom(isCategoryExist),
+        validateFields
+    ], deleteCategory)
 
 
 export default categoriesRouter;
