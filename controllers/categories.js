@@ -24,16 +24,16 @@ export const getCategories = async (req, res) => {
 
 export const getCategoryById = async (req, res) => {
 
-
     const { id } = req.params
-    console.log(id);
-    const categorie = await Category.findById(id).populate('user','name')
 
+
+    const categorie = await Category.findById(id).populate('user', 'name')
 
     res.status(200).json(categorie);
 
-
 }
+
+
 
 
 
@@ -64,4 +64,33 @@ export const createCategories = async (req, res) => {
 };
 //update categorie - product
 
+export const updateCategories = async (req, res) => {
+
+    const { id } = req.params;
+    const { state, user, ...data } = req.body;
+
+    //category
+    data.name = data.name.toUpperCase();
+    //user owner token
+    data.user = req.user._id
+
+    const updateCategory = await Category.findByIdAndUpdate(id, data, { new: true });
+
+    console.log(updateCategory);
+    res.status(201).json(updateCategory)
+
+}
+
 //delete categorie - state false
+
+export const deleteCategory = async (req, res) => {
+
+    const { id } = req.params;
+    const category = await Category.findByIdAndUpdate(id, { state: false });
+
+
+    res.json({ msg: category });
+
+
+
+}
