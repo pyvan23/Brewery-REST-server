@@ -4,6 +4,7 @@ import userRouter from "../routes/users.js";
 import { dbConnection } from "../dataBase/config.js";
 import router from "../routes/auth.js";
 import categoriesRouter from "../routes/categories.js";
+import productsRouter from "../routes/products.js";
 
 export class Server {
 
@@ -13,6 +14,7 @@ export class Server {
     this.userPath = "/api/users";
     this.authPath = "/api/auth";
     this.categoriesPath = "/api/categories";
+    this.productsPath = "/api/products";
 
     //Db connection
     this.dBConnection();
@@ -37,6 +39,7 @@ export class Server {
     this.app.use(this.authPath, router);
     this.app.use(this.userPath, userRouter);
     this.app.use(this.categoriesPath, categoriesRouter);
+    this.app.use(this.productsPath, productsRouter);
   }
 
   async dBConnection() {
