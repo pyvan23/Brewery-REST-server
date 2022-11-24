@@ -1,19 +1,21 @@
-import Category from "../models/category.js";
+import Product from "../models/product.js";
+
 
 //get categories - paginate - total -populate
 
-export const getCategories = async (req, res) => {
+
+export const getProducts = async (req, res) => {
 
     const { limits = 5, since = 0 } = req.query;
 
 
-    const [total, categories] = await Promise.all([
+    const [total, products] = await Promise.all([
 
-        Category.countDocuments({ state: true }),
-        Category.find({ state: true }).populate('user', 'name').skip(Number(since)).limit(Number(limits))
+        Product.countDocuments({ state: true }),
+        Product.find({ state: true }).populate('user', 'name').skip(Number(since)).limit(Number(limits))
     ])
 
-    res.status(200).json({ total, categories });
+    res.status(200).json({ total, products });
 
 
 }
@@ -34,27 +36,32 @@ export const getCategoryById = async (req, res) => {
 }
 
 
-export const createCategories = async (req, res) => {
+
+
+
+
+
+export const createProducts = async (req, res) => {
 
     const name = req.body.name.toUpperCase();
-    const categorieDB = await Category.findOne({ name });
+    const productDB = await Product.findOne({ name });
 
-    if (categorieDB) {
+    if (productDB) {
         return res.status(400).json({
-            msg: `categorie ${categorieDB.name}, already exist`
+            msg: `${productDB.name}, already exist`
         })
     }
 
     //generate data
-    const data = {
-        name, user: req.user._id
-    }
+     const data = {
+         name, user: req.user._id
+     }
 
-    const categorie = await new Category(data);
+     const product = await new Product({name});
     //save in DB
-    await categorie.save();
+    await product.save();
 
-    res.status(201).json(categorie);
+    res.status(201).json(product);
 
 };
 //update categorie - product
@@ -69,7 +76,7 @@ export const updateCategories = async (req, res) => {
     //user owner token
     data.user = req.user._id
 
-    const updateCategory = await Category.findByIdAndUpdate(id, data, { new: true });
+    const updateCategory = await Product.findByIdAndUpdate(id, data, { new: true });
 
     console.log(updateCategory);
     res.status(201).json(updateCategory)
