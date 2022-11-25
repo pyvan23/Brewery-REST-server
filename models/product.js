@@ -17,7 +17,7 @@ const ProductSchema = Schema({
         type: Schema.Types.ObjectId,
         //User Schema
         ref: 'User',
-        // required: true
+         required: true
     },
     price: {
         type: Number,
@@ -26,7 +26,7 @@ const ProductSchema = Schema({
     category: {
         type: Schema.Types.ObjectId,
         ref: 'Category',
-        // required: true
+         required: true
     },
     description: {
         type: String

@@ -36,28 +36,33 @@ export const getCategoryById = async (req, res) => {
 }
 
 
-
-
-
-
-
 export const createProducts = async (req, res) => {
 
     const name = req.body.name.toUpperCase();
+    const category = req.body.category
+    const categoryStr = category.
+    console.log(category);
+    
     const productDB = await Product.findOne({ name });
+    const categoryDB = await Product.findOne({ category });
 
     if (productDB) {
         return res.status(400).json({
             msg: `${productDB.name}, already exist`
         })
     }
+    if (!categoryDB) {
+        return res.status(400).json({
+            msg: `${productDB.name}, not exist`
+        })
+    }
 
     //generate data
-     const data = {
-         name, user: req.user._id
-     }
+    const data = {
+        name,   user: req.user._id,
+    }
 
-     const product = await new Product({name});
+    const product = await new Product(data);
     //save in DB
     await product.save();
 
