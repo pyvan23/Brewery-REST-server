@@ -1,4 +1,5 @@
 import Product from "../models/product.js";
+import Category from "../models/category.js";
 
 
 //get categories - paginate - total -populate
@@ -39,12 +40,12 @@ export const getCategoryById = async (req, res) => {
 export const createProducts = async (req, res) => {
 
     const name = req.body.name.toUpperCase();
-    const category = req.body.category
-    const categoryStr = category.
+    const category = req.body.category.name
     console.log(category);
     
     const productDB = await Product.findOne({ name });
-    const categoryDB = await Product.findOne({ category });
+    const categoryDB = await Category.findOne({category} );
+    console.log(categoryDB);
 
     if (productDB) {
         return res.status(400).json({

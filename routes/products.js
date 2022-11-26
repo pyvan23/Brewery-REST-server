@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { check } from "express-validator";
 import { createProducts } from "../controllers/products.js";
+import { isCategoryExist } from "../helpers/db-validators.js";
 import { validateFields } from "../middlewares/validate-fields.js";
 import { validateJwt } from "../middlewares/validate-jwt.js";
 
@@ -17,6 +18,8 @@ productsRouter.get('/:id', (req, res) => {
 productsRouter.post('/',
     [validateJwt,
         check('name', 'name is required').not().isEmpty(),
+        check('category', 'id is not valid').isMongoId(),
+        check('category').custom( isCategoryExist ),
         validateFields,
     ], createProducts)
 
