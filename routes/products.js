@@ -20,7 +20,7 @@ productsRouter.get('/:id',
     ], getProductById);
 
 productsRouter.post('/',
-    [   validateJwt,
+    [validateJwt,
         check('name', 'name is required').not().isEmpty(),
         check('category', 'id is not valid').isMongoId(),
         check('category').custom(isCategoryExist),
@@ -28,14 +28,14 @@ productsRouter.post('/',
     ], createProducts)
 
 productsRouter.put('/:id',
-    [   validateJwt,
+    [validateJwt,
         // check('category', 'id is not valid').isMongoId(),
         check('id').custom(isProductExist),
         validateFields
     ], updateProduct)
 
 productsRouter.delete('/:id',
-    [   validateJwt, isAdminRole,
+    [validateJwt, isAdminRole,
         check('id', 'id is not valid').isMongoId(),
         check('id').custom(isProductExist),
     ], deleteProduct)
