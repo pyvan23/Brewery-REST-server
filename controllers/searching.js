@@ -1,10 +1,10 @@
 
 
-export const searching = async (req, res) => {
+export const searching = (req, res) => {
 
-   
+    const { collection, term } = req.params;
 
-    res.status(200).json({ msg:'search' });
+    res.status(200).json(`${collection} ${term}` );
 
 
 }

@@ -5,7 +5,7 @@ const searchingRouter = Router();
 
 
 
-searchingRouter.get('/:collection/:term',searching)
+searchingRouter.get('/:collection/:term',searching);
 
 
 

@@ -16,7 +16,7 @@ export class Server {
     this.authPath = "/api/auth";
     this.categoriesPath = "/api/categories";
     this.productsPath = "/api/products";
-    this.searchingPath = "/api/searching"
+    this.searchingPath = "/api/searching";
 
     //Db connection
     this.dBConnection();
