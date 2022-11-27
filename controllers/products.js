@@ -1,5 +1,6 @@
 import Product from "../models/product.js";
 import Category from "../models/category.js";
+import { body } from "express-validator";
 
 
 //get categories - paginate - total -populate
@@ -13,7 +14,11 @@ export const getProducts = async (req, res) => {
     const [total, products] = await Promise.all([
 
         Product.countDocuments({ state: true }),
-        Product.find({ state: true }).populate('user', 'name').skip(Number(since)).limit(Number(limits))
+        Product.find({ state: true })
+            .populate('user', 'name')
+            .populate('category', 'name')
+            .skip(Number(since))
+            .limit(Number(limits))
     ])
 
     res.status(200).json({ total, products });
@@ -25,42 +30,35 @@ export const getProducts = async (req, res) => {
 
 //get categorie - populate
 
-export const getCategoryById = async (req, res) => {
+export const getProductById = async (req, res) => {
 
     const { id } = req.params
 
+    const product = await Product.findById(id)
+        .populate('user', 'name')
+        .populate('category', 'name')
 
-    const categorie = await Category.findById(id).populate('user', 'name')
-
-    res.status(200).json(categorie);
+    res.status(200).json(product);
 
 }
 
 
 export const createProducts = async (req, res) => {
 
-    const name = req.body.name.toUpperCase();
-    const category = req.body.category.name
-    console.log(category);
-    
-    const productDB = await Product.findOne({ name });
-    const categoryDB = await Category.findOne({category} );
-    console.log(categoryDB);
+    const { state, user, ...body } = req.body;
+    const productDB = await Product.findOne({ name: body.name });
 
     if (productDB) {
         return res.status(400).json({
             msg: `${productDB.name}, already exist`
         })
     }
-    if (!categoryDB) {
-        return res.status(400).json({
-            msg: `${productDB.name}, not exist`
-        })
-    }
 
     //generate data
     const data = {
-        name,   user: req.user._id,
+        ...body,
+        name: body.name.toUpperCase(),
+        user: req.user._id,
     }
 
     const product = await new Product(data);
@@ -70,34 +68,34 @@ export const createProducts = async (req, res) => {
     res.status(201).json(product);
 
 };
-//update categorie - product
+//update products - product
 
-export const updateCategories = async (req, res) => {
+export const updateProduct = async (req, res) => {
 
     const { id } = req.params;
     const { state, user, ...data } = req.body;
 
-    //category
-    data.name = data.name.toUpperCase();
+    if (data.name) {
+
+        data.name = data.name.toUpperCase();
+    }
     //user owner token
     data.user = req.user._id
 
-    const updateCategory = await Product.findByIdAndUpdate(id, data, { new: true });
+    const updateProduct = await Product.findByIdAndUpdate(id, data, { new: true });
 
-    console.log(updateCategory);
-    res.status(201).json(updateCategory)
-
+    res.status(201).json(updateProduct)
 }
 
-//delete categorie - state false
+//delete products - state false
 
-export const deleteCategory = async (req, res) => {
+export const deleteProduct = async (req, res) => {
 
     const { id } = req.params;
-    const category = await Category.findByIdAndUpdate(id, { state: false });
+    const productDelete = await Product.findByIdAndUpdate(id, { state: false }, { new: true });
 
 
-    res.json({ msg: category });
+    res.json({ msg: productDelete });
 
 
 
