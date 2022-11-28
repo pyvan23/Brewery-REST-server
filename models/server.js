@@ -6,6 +6,7 @@ import router from "../routes/auth.js";
 import categoriesRouter from "../routes/categories.js";
 import productsRouter from "../routes/products.js";
 import searchingRouter from "../routes/searching.js";
+import uploadRouter from "../routes/upload.js";
 
 export class Server {
 
@@ -17,6 +18,7 @@ export class Server {
     this.categoriesPath = "/api/categories";
     this.productsPath = "/api/products";
     this.searchingPath = "/api/searching";
+    this.uploadPath = "/api/upload";
 
     //Db connection
     this.dBConnection();
@@ -43,6 +45,7 @@ export class Server {
     this.app.use(this.categoriesPath, categoriesRouter);
     this.app.use(this.productsPath, productsRouter);
     this.app.use(this.searchingPath, searchingRouter);
+    this.app.use(this.uploadPath, uploadRouter);
   }
 
   async dBConnection() {
